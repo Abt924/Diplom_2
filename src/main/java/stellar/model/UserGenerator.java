@@ -1,6 +1,7 @@
 package stellar.model;
 
 import com.github.javafaker.Faker;
+import stellar.model.pojo.EmailName;
 import stellar.model.pojo.User;
 
 import java.util.Locale;
@@ -12,11 +13,7 @@ public class UserGenerator {
 
     public static User createRandom() {
         Faker faker = new Faker();
-        return new User(
-                faker.internet().emailAddress(),
-                faker.internet().password(),
-                faker.name().name()
-        );
+        return new User(faker.internet().emailAddress(), faker.internet().password(), faker.name().name());
     }
 
     public static User noEmailRandom() {
@@ -35,5 +32,10 @@ public class UserGenerator {
         User user = UserGenerator.createRandom();
         user.setName("");
         return user;
+    }
+
+    public static EmailName emailNameRandom() {
+        Faker faker = new Faker();
+        return new EmailName(faker.internet().emailAddress(), faker.name().name());
     }
 }

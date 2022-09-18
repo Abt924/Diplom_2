@@ -1,0 +1,8 @@
+stellar\test\IngredientsGenerator.class
+stellar\test\BaseApiTest.class
+stellar\test\CreateUserTest.class
+stellar\test\LoginUserTest.class
+stellar\test\OrderCreator.class
+stellar\test\UserUpdateTest.class
+stellar\test\GetUserOrdersTest.class
+stellar\test\OrderCreateTest.class

@@ -1,14 +1,13 @@
 package stellar.model;
 
 import io.qameta.allure.Step;
+
 import io.restassured.response.ValidatableResponse;
-import stellar.model.pojo.Credentials;
-import stellar.model.pojo.User;
-import stellar.model.pojo.UserCreated;
+import stellar.model.pojo.*;
 
 import static io.restassured.RestAssured.given;
 
-public class UserClient extends RestClient{
+public class UserClient extends RestClient {
 
     public static String REGISTER_PATH = "api/auth/register";
     public static String LOGIN_PATH = "api/auth/login";
@@ -29,7 +28,6 @@ public class UserClient extends RestClient{
 
     @Step("login credentials {credentials} ")
     public ValidatableResponse login(Credentials credentials) {
-        System.out.println(credentials);
         return given()
                 .spec(spec)
                 .body(credentials)
@@ -42,13 +40,11 @@ public class UserClient extends RestClient{
     public ValidatableResponse logout(String refreshToken) {
         String json = String.format("{ \"token\" : \"%s\" }", refreshToken);
         return given()
-                .log().all()
                 .spec(spec)
                 .body(json)
                 .when()
                 .post(LOGOUT_PATH)
-                .then()
-                ;
+                .then();
     }
 
     @Step("refresh token with credentials {credentials} ")
@@ -61,6 +57,29 @@ public class UserClient extends RestClient{
                 .then();
     }
 
+    @Step("get user by token {userCreated} ")
+    public ValidatableResponse getUser(UserCreated userCreated) {
+        return given()
+                .spec(spec)
+                .header("Authorization", userCreated.getAccessToken())
+                .when()
+                .get(USER_PATH)
+                .then();
+    }
+
+    @Step("Update user {userCreated} nue {emailName}")
+    public ValidatableResponse updateUser(UserCreated userCreated, EmailName emailName) {
+
+        return given()
+                .spec(spec)
+                .header("Authorization", userCreated.getAccessToken())
+                .body(emailName)
+                .when()
+                .patch(USER_PATH)
+                .then();
+    }
+
+
     @Step("delete user {userCreated} ")
     public ValidatableResponse deleteUser(UserCreated userCreated) {
         return given()
@@ -71,4 +90,17 @@ public class UserClient extends RestClient{
                 .then();
     }
 
+    public UserCreated createUser(User user){
+        return create(user)
+                .extract()
+                .body()
+                .as(UserCreated.class);
+    }
+
+    public Authorized loginUser(User user) {
+        return login(user.getCredentials())
+                .extract()
+                .body()
+                .as(Authorized.class);
+    }
 }

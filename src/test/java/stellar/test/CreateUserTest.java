@@ -1,3 +1,4 @@
+package stellar.test;
 
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
@@ -17,8 +18,6 @@ import stellar.model.pojo.UserCreated;
 
 
 public class CreateUserTest extends BaseApiTest {
-    private User user;
-    private UserCreated userCreated;
     private SuccessMessage successMessage;
 
     @Before
@@ -39,7 +38,7 @@ public class CreateUserTest extends BaseApiTest {
         userCreated = response.extract().body().as(UserCreated.class);
         assertTrue("Success field should be true", userCreated.isSuccess());
 
-        System.out.println(userCreated.toString());
+
     }
 
     @Test
@@ -99,18 +98,5 @@ public class CreateUserTest extends BaseApiTest {
         assertEquals("Message is not the same as expected",
                 "Email, password and name are required fields", successMessage.getMessage());
     }
-
-    @After
-    public void tearDown() {
-        super.tearDown();
-        // remove created user
-        if (userCreated != null) {
-            ValidatableResponse response = userClient.deleteUser(userCreated);
-            System.out.println("Delete user status " + response.extract().statusCode());
-            System.out.println(response.extract().body().asString());
-        }
-
-    }
-
 
 }

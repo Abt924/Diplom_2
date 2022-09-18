@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: stellar.test.UserUpdateTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 11.455 s <<< FAILURE! - in stellar.test.UserUpdateTest
+unauthorizedUserUpdateNotChangeUserData(stellar.test.UserUpdateTest)  Time elapsed: 2.177 s  <<< FAILURE!
+java.lang.AssertionError: Unauthorized user Update should not change user email and name expected:<EmailName(email=elroy.schuster@gmail.com, name=Fredrick Botsford IV)> but was:<EmailName(email=neva.kemmer@gmail.com, name=Hipolito Wisozk)>
+	at stellar.test.UserUpdateTest.unauthorizedUserUpdateNotChangeUserData(UserUpdateTest.java:98)
+
+unauthorizedUserUpdate401(stellar.test.UserUpdateTest)  Time elapsed: 1.947 s  <<< FAILURE!
+java.lang.AssertionError: Status code is not UNAUTHORIZED expected:<401> but was:<200>
+	at stellar.test.UserUpdateTest.unauthorizedUserUpdate401(UserUpdateTest.java:76)
+
