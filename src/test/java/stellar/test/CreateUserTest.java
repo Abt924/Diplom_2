@@ -1,20 +1,18 @@
 package stellar.test;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.apache.http.HttpStatus.*;
-import static org.junit.Assert.*;
-
-import io.qameta.allure.junit4.DisplayName;
-import io.qameta.allure.Description;
-
-import stellar.model.*;
+import stellar.model.UserGenerator;
 import stellar.model.pojo.SuccessMessage;
 import stellar.model.pojo.User;
 import stellar.model.pojo.UserCreated;
+
+import static org.apache.http.HttpStatus.SC_FORBIDDEN;
+import static org.apache.http.HttpStatus.SC_OK;
+import static org.junit.Assert.*;
 
 
 public class CreateUserTest extends BaseApiTest {
@@ -53,8 +51,7 @@ public class CreateUserTest extends BaseApiTest {
         assertEquals("Status code is not FORBIDDEN", SC_FORBIDDEN, statusCode);
         successMessage = response.extract().body().as(SuccessMessage.class);
         assertFalse("Success field should be false", successMessage.isSuccess());
-        assertEquals("Message is not the same as expected",
-                "User already exists", successMessage.getMessage());
+        assertEquals("Message is not the same as expected", "User already exists", successMessage.getMessage());
     }
 
     @Test
@@ -67,8 +64,7 @@ public class CreateUserTest extends BaseApiTest {
         assertEquals("Status code is not FORBIDDEN", SC_FORBIDDEN, statusCode);
         successMessage = response.extract().body().as(SuccessMessage.class);
         assertFalse("Success field should be false", successMessage.isSuccess());
-        assertEquals("Message is not the same as expected",
-                "Email, password and name are required fields", successMessage.getMessage());
+        assertEquals("Message is not the same as expected", "Email, password and name are required fields", successMessage.getMessage());
     }
 
     @Test
@@ -81,8 +77,7 @@ public class CreateUserTest extends BaseApiTest {
         assertEquals("Status code is not FORBIDDEN", SC_FORBIDDEN, statusCode);
         successMessage = response.extract().body().as(SuccessMessage.class);
         assertFalse("Success field should be false", successMessage.isSuccess());
-        assertEquals("Message is not the same as expected",
-                "Email, password and name are required fields", successMessage.getMessage());
+        assertEquals("Message is not the same as expected", "Email, password and name are required fields", successMessage.getMessage());
     }
 
     @Test
@@ -95,8 +90,6 @@ public class CreateUserTest extends BaseApiTest {
         assertEquals("Status code is not FORBIDDEN", SC_FORBIDDEN, statusCode);
         successMessage = response.extract().body().as(SuccessMessage.class);
         assertFalse("Success field should be false", successMessage.isSuccess());
-        assertEquals("Message is not the same as expected",
-                "Email, password and name are required fields", successMessage.getMessage());
+        assertEquals("Message is not the same as expected", "Email, password and name are required fields", successMessage.getMessage());
     }
-
 }

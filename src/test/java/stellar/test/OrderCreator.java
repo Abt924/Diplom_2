@@ -22,18 +22,14 @@ public class OrderCreator extends BaseApiTest {
 
     public boolean createRandomOrder() {
         Ingredients stack = generator.randomIngredients(new Random().nextInt(12) + 1);
-        return orderClient
-                 .createOrderAuthorized(stack, auth)
-                 .extract()
-                 .statusCode() == SC_OK;
+        return orderClient.createOrderAuthorized(stack, auth).extract().statusCode() == SC_OK;
     }
 
     public int createFewOrders(int count) {
         int createdCount = 0;
         for (int i = 0; i < count; i++) {
-            if (createRandomOrder()) createdCount++ ;
+            if (createRandomOrder()) createdCount++;
         }
         return createdCount;
     }
-
 }

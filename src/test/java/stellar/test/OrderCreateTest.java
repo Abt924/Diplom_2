@@ -3,7 +3,6 @@ package stellar.test;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import stellar.model.UserGenerator;
@@ -25,9 +24,7 @@ public class OrderCreateTest extends BaseApiTest {
     public void setUp() {
         super.setUp();
         ingredientsGenerator = new IngredientsGenerator();
-
     }
-
 
     @Test
     @DisplayName("create Order without authorization")
@@ -41,7 +38,6 @@ public class OrderCreateTest extends BaseApiTest {
                 .body("success", equalTo(true))
                 .body("name", notNullValue())
                 .body("order.number", notNullValue());
-
     }
 
     @Test
@@ -54,14 +50,14 @@ public class OrderCreateTest extends BaseApiTest {
 
         Ingredients stack = ingredientsGenerator.randomIngredients(2);
 
-        orderClient.createOrderAuthorized(stack, authorized)
+        orderClient
+                .createOrderAuthorized(stack, authorized)
                 .assertThat()
                 .statusCode(not(equalTo(429)))
                 .statusCode(SC_OK)
                 .body("success", equalTo(true))
                 .body("name", notNullValue())
                 .body("order", notNullValue());
-
     }
 
     @Test
@@ -75,27 +71,22 @@ public class OrderCreateTest extends BaseApiTest {
         Ingredients stack = ingredientsGenerator.randomIngredients(5);
 
         ValidatableResponse response = orderClient.createOrderAuthorized(stack, authorized);
-        response.assertThat()
+        response
+                .assertThat()
                 .statusCode(not(equalTo(429)))
                 .statusCode(SC_OK)
                 .body("success", equalTo(true))
                 .body("name", notNullValue())
                 .body("order", notNullValue());
-
-        List<String> orderIngredientsIds = response.
-                extract()
+        List<String> orderIngredientsIds = response
+                .extract()
                 .body()
                 .as(SuccessOrder.class)
                 .getOrder()
                 .getIngredients()
-                .stream()
-                .map(ingredient -> ingredient.get_id())
-                .collect(Collectors.toList());
+                .stream().map(ingredient -> ingredient.get_id()).collect(Collectors.toList());
 
-        assertEquals("Ingredients ids in order should be the same",
-                stack.getIngredients(), orderIngredientsIds);
-
-
+        assertEquals("Ingredients ids in order should be the same", stack.getIngredients(), orderIngredientsIds);
     }
 
     @Test
@@ -109,26 +100,22 @@ public class OrderCreateTest extends BaseApiTest {
         Ingredients stack = ingredientsGenerator.randomIngredients(1);
 
         ValidatableResponse response = orderClient.createOrderAuthorized(stack, authorized);
-        response.assertThat()
+        response
+                .assertThat()
                 .statusCode(not(equalTo(429)))
                 .statusCode(SC_OK)
                 .body("success", equalTo(true))
                 .body("name", notNullValue())
                 .body("order", notNullValue());
-
-        UserInOrder userInOrder = response.
-                extract()
+        UserInOrder userInOrder = response
+                .extract()
                 .body()
                 .as(SuccessOrder.class)
                 .getOrder()
                 .getOwner();
 
-        assertEquals(" Owner name should be as the user name ",
-                user.getName(), userInOrder.getName());
-
-        assertEquals(" Owner email should be as the user email ",
-                user.getEmail(), userInOrder.getEmail());
-
+        assertEquals(" Owner name should be as the user name ", user.getName(), userInOrder.getName());
+        assertEquals(" Owner email should be as the user email ", user.getEmail(), userInOrder.getEmail());
     }
 
     @Test
@@ -138,10 +125,9 @@ public class OrderCreateTest extends BaseApiTest {
         ValidatableResponse response = orderClient.createOrder(stack);
         assertEquals("Status code is not SC_BAD_REQUEST", SC_BAD_REQUEST, response.extract().statusCode());
         successMessage = response.extract().body().as(SuccessMessage.class);
-        assertFalse("Success field should be false", successMessage.isSuccess());
-        assertEquals("Message is not the same as expected",
-                "Ingredient ids must be provided", successMessage.getMessage());
 
+        assertFalse("Success field should be false", successMessage.isSuccess());
+        assertEquals("Message is not the same as expected", "Ingredient ids must be provided", successMessage.getMessage());
     }
 
     @Test
@@ -150,10 +136,6 @@ public class OrderCreateTest extends BaseApiTest {
 
         ValidatableResponse response = orderClient.createOrder(stack);
         assertEquals("Status code is not INTERNAL_SERVER_ERROR", SC_INTERNAL_SERVER_ERROR, response.extract().statusCode());
-        assertTrue("Should contains Internal Server Error",
-                response.extract().body().asString().contains("Internal Server Error"));
-
+        assertTrue("Should contains Internal Server Error", response.extract().body().asString().contains("Internal Server Error"));
     }
-
-
 }

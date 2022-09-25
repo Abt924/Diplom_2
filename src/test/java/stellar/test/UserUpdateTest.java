@@ -3,11 +3,12 @@ package stellar.test;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import stellar.model.UserGenerator;
-import stellar.model.pojo.*;
+import stellar.model.pojo.EmailName;
+import stellar.model.pojo.SuccessMessage;
+import stellar.model.pojo.SuccessUser;
 
 import static org.apache.http.HttpStatus.*;
 import static org.junit.Assert.*;
@@ -16,7 +17,6 @@ public class UserUpdateTest extends BaseApiTest {
 
     private SuccessMessage successMessage;
     private SuccessUser successUser;
-
 
     @Before
     public void setUp() {
@@ -27,7 +27,6 @@ public class UserUpdateTest extends BaseApiTest {
         anotherUser = UserGenerator.createRandom();
         anotherCreatedUser = userClient.createUser(anotherUser);
     }
-
 
     @Test
     @DisplayName("Get user test")
@@ -41,7 +40,6 @@ public class UserUpdateTest extends BaseApiTest {
 
         assertEquals(userCreated.getUser().getName(), successUser.getUser().getName());
         assertEquals(userCreated.getUser().getEmail(), successUser.getUser().getEmail());
-
     }
 
     @Test
@@ -68,7 +66,6 @@ public class UserUpdateTest extends BaseApiTest {
     @Description("Update unauthorized user return UNAUTHORIZED and don't change user data")
     public void unauthorizedUserUpdate401() {
         //no authorization
-
         EmailName newEmailName = UserGenerator.emailNameRandom();
         //update
         ValidatableResponse response = userClient.updateUser(userCreated, newEmailName);
@@ -84,10 +81,8 @@ public class UserUpdateTest extends BaseApiTest {
     @Description("User's email and name  should remain the same")
     public void unauthorizedUserUpdateNotChangeUserData() {
         //no authorize
-
         EmailName expectedEmailName = new EmailName(userCreated.getUser().getEmail(), userCreated.getUser().getName());
         EmailName newEmailName = UserGenerator.emailNameRandom();
-
         //update
         userClient.updateUser(userCreated, newEmailName);
 
@@ -117,5 +112,4 @@ public class UserUpdateTest extends BaseApiTest {
 
         assertEquals("Message is not as expected", "User with such email already exists", successMessage.getMessage());
     }
-
 }

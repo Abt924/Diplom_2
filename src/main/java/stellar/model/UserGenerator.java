@@ -4,8 +4,6 @@ import com.github.javafaker.Faker;
 import stellar.model.pojo.EmailName;
 import stellar.model.pojo.User;
 
-import java.util.Locale;
-
 public class UserGenerator {
     public static User createDefault() {
         return new User("fedorff@fedor.ru", "fff", "Fedor");

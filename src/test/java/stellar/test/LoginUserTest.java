@@ -3,11 +3,12 @@ package stellar.test;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import stellar.model.UserGenerator;
-import stellar.model.pojo.*;
+import stellar.model.pojo.Authorized;
+import stellar.model.pojo.Credentials;
+import stellar.model.pojo.SuccessMessage;
 
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
@@ -53,11 +54,9 @@ public class LoginUserTest extends BaseApiTest {
     public void loginWithWrongPassword() {
         ValidatableResponse response = userClient.login(new Credentials(user.getEmail(), "wrong password"));
 
-        System.out.println(response.extract().body().asString());
         assertEquals("Status code is not UNAUTHORIZED", SC_UNAUTHORIZED, response.extract().statusCode());
         successMessage = response.extract().body().as(SuccessMessage.class);
         assertFalse("Success field should be false", successMessage.isSuccess());
         assertEquals("Message is not the same as expected", successMessage.getMessage(), "email or password are incorrect");
     }
-
 }

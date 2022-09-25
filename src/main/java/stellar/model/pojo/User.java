@@ -14,7 +14,7 @@ public class User {
         this.name = name;
     }
 
-    public Credentials getCredentials(){
+    public Credentials getCredentials() {
         return new Credentials(email, password);
     }
 }

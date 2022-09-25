@@ -2,7 +2,8 @@ package stellar.test;
 
 import org.junit.After;
 import org.junit.Before;
-import stellar.model.*;
+import stellar.model.OrderClient;
+import stellar.model.UserClient;
 import stellar.model.pojo.Authorized;
 import stellar.model.pojo.User;
 import stellar.model.pojo.UserCreated;

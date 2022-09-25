@@ -9,7 +9,7 @@ import java.util.List;
 public class Ingredients {
     private List<String> ingredients = new ArrayList<>();
 
-    public void add(String hash){
+    public void add(String hash) {
         ingredients.add(hash);
     }
 }
