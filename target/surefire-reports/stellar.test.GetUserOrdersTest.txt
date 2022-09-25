@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: stellar.test.GetUserOrdersTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 9.916 s <<< FAILURE! - in stellar.test.GetUserOrdersTest
+checkUserOrdersCount(stellar.test.GetUserOrdersTest)  Time elapsed: 6.64 s  <<< FAILURE!
+java.lang.AssertionError: Orders counter total not equals to created orders count expected:<5> but was:<22944>
+	at stellar.test.GetUserOrdersTest.checkUserOrdersCount(GetUserOrdersTest.java:88)
+
